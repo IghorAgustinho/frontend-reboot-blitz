@@ -26,11 +26,36 @@ interface TimerSession {
 }
 
 const Timer = () => {
-  // Load state from localStorage on mount
+  // Load state from localStorage on mount and calculate elapsed time
   const loadTimerState = () => {
     const saved = localStorage.getItem('timerState');
     if (saved) {
       const state = JSON.parse(saved);
+      
+      // If timer was running, calculate elapsed time
+      if (state.isRunning && state.startTimestamp) {
+        const now = Date.now();
+        const elapsed = Math.floor((now - state.startTimestamp) / 1000); // seconds elapsed
+        const remainingSeconds = (state.minutes * 60 + state.seconds) - elapsed;
+        
+        if (remainingSeconds > 0) {
+          const newMinutes = Math.floor(remainingSeconds / 60);
+          const newSeconds = remainingSeconds % 60;
+          return {
+            ...state,
+            minutes: newMinutes,
+            seconds: newSeconds
+          };
+        } else {
+          // Timer finished while away
+          return {
+            ...state,
+            minutes: 0,
+            seconds: 0,
+            isRunning: false
+          };
+        }
+      }
       return state;
     }
     return null;
@@ -48,11 +73,12 @@ const Timer = () => {
     JSON.parse(localStorage.getItem('completedSessions') || '[]')
   );
   const [currentSession, setCurrentSession] = useState(savedState?.currentSession || 1);
+  const [startTimestamp, setStartTimestamp] = useState<number | null>(savedState?.startTimestamp || null);
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Save timer state to localStorage
+  // Save timer state to localStorage with timestamp
   useEffect(() => {
     const state = {
       minutes,
@@ -60,10 +86,11 @@ const Timer = () => {
       totalSeconds,
       isRunning,
       timerType,
-      currentSession
+      currentSession,
+      startTimestamp
     };
     localStorage.setItem('timerState', JSON.stringify(state));
-  }, [minutes, seconds, totalSeconds, isRunning, timerType, currentSession]);
+  }, [minutes, seconds, totalSeconds, isRunning, timerType, currentSession, startTimestamp]);
 
   // Save completed sessions to localStorage
   useEffect(() => {
@@ -149,15 +176,18 @@ const Timer = () => {
     setMinutes(duration);
     setSeconds(0);
     setTotalSeconds(duration * 60);
+    setStartTimestamp(Date.now()); // Save start timestamp
     setIsRunning(true);
   };
 
   const pauseTimer = () => {
     setIsRunning(false);
+    setStartTimestamp(null); // Clear timestamp when paused
   };
 
   const resetTimer = () => {
     setIsRunning(false);
+    setStartTimestamp(null); // Clear timestamp when reset
     const duration = timerType === 'custom' ? customMinutes : presets.pomodoro;
     setMinutes(duration);
     setSeconds(0);
