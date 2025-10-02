@@ -11,6 +11,7 @@ import Calendar from "./pages/Calendar";
 import Timer from "./pages/Timer";
 import Notes from "./pages/Notes";
 import Subjects from "./pages/Subjects";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,7 +30,7 @@ const App = () => (
           <Route path="/calendar" element={<AppLayout><Calendar /></AppLayout>} />
           <Route path="/timer" element={<AppLayout><Timer /></AppLayout>} />
           <Route path="/notes" element={<AppLayout><Notes /></AppLayout>} />
-          <Route path="/settings" element={<AppLayout><div className="p-8"><h1 className="text-3xl font-bold">Configurações</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div></AppLayout>} />
+          <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

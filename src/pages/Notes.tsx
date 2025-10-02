@@ -30,28 +30,8 @@ interface Note {
 }
 
 const Notes = () => {
-  const [notes, setNotes] = useState<Note[]>([
-    {
-      id: "1",
-      title: "Resumo de Álgebra Linear",
-      content: "Matrizes são arranjos retangulares de números, símbolos ou expressões, organizados em linhas e colunas...",
-      category: "Matemática",
-      tags: ["matrizes", "álgebra", "linear"],
-      isPinned: true,
-      createdAt: "2024-01-15T10:00:00Z",
-      updatedAt: "2024-01-15T10:00:00Z"
-    },
-    {
-      id: "2",
-      title: "Conceitos de Física Quântica",
-      content: "A mecânica quântica é uma teoria fundamental na física que descreve o comportamento da matéria e energia...",
-      category: "Física",
-      tags: ["quântica", "mecânica", "energia"],
-      isPinned: false,
-      createdAt: "2024-01-14T15:30:00Z",
-      updatedAt: "2024-01-14T15:30:00Z"
-    }
-  ]);
+  // Notes will be loaded from backend API
+  const [notes, setNotes] = useState<Note[]>([]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");

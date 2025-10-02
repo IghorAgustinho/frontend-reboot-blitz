@@ -34,29 +34,8 @@ const Calendar = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
-  // Mock events - replace with real data
-  const [events, setEvents] = useState<CalendarEvent[]>([
-    {
-      id: "1",
-      title: "Prova de Matemática",
-      date: "2024-01-15",
-      startTime: "14:00",
-      endTime: "16:00",
-      isAllDay: false,
-      location: "Sala 205",
-      description: "Prova sobre álgebra linear e cálculo"
-    },
-    {
-      id: "2",
-      title: "Reunião de Projeto",
-      date: "2024-01-20",
-      startTime: "10:00",
-      endTime: "11:30",
-      isAllDay: false,
-      location: "Lab de Informática",
-      description: "Apresentação do andamento do projeto"
-    }
-  ]);
+  // Events will be loaded from backend API
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
 
   const [newEvent, setNewEvent] = useState<Partial<CalendarEvent>>({
     title: "",

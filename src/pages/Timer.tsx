@@ -26,17 +26,49 @@ interface TimerSession {
 }
 
 const Timer = () => {
-  const [minutes, setMinutes] = useState(25);
-  const [seconds, setSeconds] = useState(0);
-  const [totalSeconds, setTotalSeconds] = useState(25 * 60);
-  const [isRunning, setIsRunning] = useState(false);
+  // Load state from localStorage on mount
+  const loadTimerState = () => {
+    const saved = localStorage.getItem('timerState');
+    if (saved) {
+      const state = JSON.parse(saved);
+      return state;
+    }
+    return null;
+  };
+
+  const savedState = loadTimerState();
+  
+  const [minutes, setMinutes] = useState(savedState?.minutes || 25);
+  const [seconds, setSeconds] = useState(savedState?.seconds || 0);
+  const [totalSeconds, setTotalSeconds] = useState(savedState?.totalSeconds || 25 * 60);
+  const [isRunning, setIsRunning] = useState(savedState?.isRunning || false);
   const [customMinutes, setCustomMinutes] = useState(25);
-  const [timerType, setTimerType] = useState<'pomodoro' | 'break' | 'custom'>('pomodoro');
-  const [completedSessions, setCompletedSessions] = useState<TimerSession[]>([]);
-  const [currentSession, setCurrentSession] = useState(1);
+  const [timerType, setTimerType] = useState<'pomodoro' | 'break' | 'custom'>(savedState?.timerType || 'pomodoro');
+  const [completedSessions, setCompletedSessions] = useState<TimerSession[]>(
+    JSON.parse(localStorage.getItem('completedSessions') || '[]')
+  );
+  const [currentSession, setCurrentSession] = useState(savedState?.currentSession || 1);
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Save timer state to localStorage
+  useEffect(() => {
+    const state = {
+      minutes,
+      seconds,
+      totalSeconds,
+      isRunning,
+      timerType,
+      currentSession
+    };
+    localStorage.setItem('timerState', JSON.stringify(state));
+  }, [minutes, seconds, totalSeconds, isRunning, timerType, currentSession]);
+
+  // Save completed sessions to localStorage
+  useEffect(() => {
+    localStorage.setItem('completedSessions', JSON.stringify(completedSessions));
+  }, [completedSessions]);
 
   const presets = {
     pomodoro: 25,

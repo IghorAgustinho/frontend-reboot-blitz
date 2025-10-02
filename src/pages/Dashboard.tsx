@@ -35,88 +35,41 @@ interface Task {
 }
 
 const Dashboard = () => {
-  // Mock data - replace with real data from backend
+  // Data will be loaded from backend API
   const stats = [
     {
       title: "Matérias Ativas",
-      value: "12",
-      description: "3 concluídas este mês",
+      value: "0",
+      description: "Nenhuma concluída ainda",
       icon: BookOpen,
-      trend: { value: 8, label: "8% mais que mês passado", isPositive: true }
+      trend: { value: 0, label: "Comece agora!", isPositive: true }
     },
     {
       title: "Horas Estudadas",
-      value: "127h",
-      description: "Esta semana: 23h",
+      value: "0h",
+      description: "Esta semana: 0h",
       icon: Clock,
-      trend: { value: 12, label: "12% de aumento", isPositive: true }
+      trend: { value: 0, label: "Inicie seu primeiro timer", isPositive: true }
     },
     {
       title: "Tarefas Concluídas",
-      value: "89%",
-      description: "24 de 27 tarefas",
+      value: "0%",
+      description: "0 de 0 tarefas",
       icon: Target,
-      trend: { value: 4, label: "4% de melhoria", isPositive: true }
+      trend: { value: 0, label: "Crie suas primeiras tarefas", isPositive: true }
     },
     {
       title: "Sequência de Estudos",
-      value: "15 dias",
-      description: "Parabéns! Continue assim",
+      value: "0 dias",
+      description: "Comece sua jornada!",
       icon: TrendingUp,
-      trend: { value: 15, label: "Recorde pessoal!", isPositive: true }
+      trend: { value: 0, label: "Sua primeira sequência", isPositive: true }
     }
   ];
 
-  const recentActivities: Activity[] = [
-    {
-      id: "1",
-      type: "study",
-      title: "Matemática - Álgebra Linear",
-      description: "Completou 3 exercícios sobre matrizes",
-      timestamp: "há 2 horas",
-      icon: <BookOpen className="h-4 w-4 text-primary" />
-    },
-    {
-      id: "2", 
-      type: "note",
-      title: "Anotação criada",
-      description: "Resumo da aula de Física Quântica",
-      timestamp: "há 4 horas",
-      icon: <FileText className="h-4 w-4 text-secondary" />
-    },
-    {
-      id: "3",
-      type: "calendar",
-      title: "Prova de História",
-      description: "Evento agendado para amanhã às 14:00",
-      timestamp: "há 6 horas",
-      icon: <Calendar className="h-4 w-4 text-orange-500" />
-    }
-  ];
+  const recentActivities: Activity[] = [];
 
-  const upcomingTasks: Task[] = [
-    {
-      id: "1",
-      title: "Estudar para prova de Cálculo",
-      dueDate: "Amanhã",
-      progress: 75,
-      priority: "high"
-    },
-    {
-      id: "2",
-      title: "Entregar projeto de Programação",
-      dueDate: "Em 3 dias",
-      progress: 50,
-      priority: "medium"
-    },
-    {
-      id: "3",
-      title: "Ler capítulo 5 de Biologia",
-      dueDate: "Esta semana",
-      progress: 25,
-      priority: "low"
-    }
-  ];
+  const upcomingTasks: Task[] = [];
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -154,26 +107,36 @@ const Dashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {recentActivities.map((activity) => (
-                <div key={activity.id} className="flex items-start space-x-4 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                  <div className="flex-shrink-0 mt-1">
-                    {activity.icon}
+            {recentActivities.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <FileText className="h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="font-semibold mb-2">Nenhuma atividade ainda</h3>
+                <p className="text-sm text-muted-foreground">
+                  Suas atividades recentes aparecerão aqui
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {recentActivities.map((activity) => (
+                  <div key={activity.id} className="flex items-start space-x-4 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                    <div className="flex-shrink-0 mt-1">
+                      {activity.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground">
+                        {activity.title}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {activity.description}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {activity.timestamp}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground">
-                      {activity.title}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {activity.description}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {activity.timestamp}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -186,35 +149,45 @@ const Dashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {upcomingTasks.map((task) => (
-                <div key={task.id} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium">{task.title}</p>
-                    <Badge variant={getPriorityColor(task.priority) as any} className="text-xs">
-                      {task.priority === 'high' ? 'Alta' : task.priority === 'medium' ? 'Média' : 'Baixa'}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="flex-1">
-                      <div className="h-2 bg-muted rounded-full">
-                        <div 
-                          className="h-2 bg-primary rounded-full transition-all"
-                          style={{ width: `${task.progress}%` }}
-                        />
-                      </div>
+            {upcomingTasks.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <Target className="h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="font-semibold mb-2">Nenhuma tarefa</h3>
+                <p className="text-sm text-muted-foreground">
+                  Suas tarefas pendentes aparecerão aqui
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {upcomingTasks.map((task) => (
+                  <div key={task.id} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium">{task.title}</p>
+                      <Badge variant={getPriorityColor(task.priority) as any} className="text-xs">
+                        {task.priority === 'high' ? 'Alta' : task.priority === 'medium' ? 'Média' : 'Baixa'}
+                      </Badge>
                     </div>
-                    <span className="text-xs text-muted-foreground">
-                      {task.progress}%
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      <div className="flex-1">
+                        <div className="h-2 bg-muted rounded-full">
+                          <div 
+                            className="h-2 bg-primary rounded-full transition-all"
+                            style={{ width: `${task.progress}%` }}
+                          />
+                        </div>
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {task.progress}%
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground flex items-center">
+                      <Clock className="h-3 w-3 mr-1" />
+                      {task.dueDate}
+                    </p>
                   </div>
-                  <p className="text-xs text-muted-foreground flex items-center">
-                    <Clock className="h-3 w-3 mr-1" />
-                    {task.dueDate}
-                  </p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

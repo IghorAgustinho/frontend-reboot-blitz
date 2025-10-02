@@ -60,76 +60,8 @@ interface StudyUnit {
 }
 
 export default function Subjects() {
-  const [studyUnits, setStudyUnits] = useState<StudyUnit[]>([
-    {
-      id: "1",
-      name: "1º Semestre 2024",
-      expanded: true,
-      progress: 75,
-      subjects: [
-        {
-          id: "1",
-          name: "Cálculo I",
-          color: "bg-blue-500",
-          progress: 85,
-          archived: false,
-          contents: [
-            {
-              id: "1",
-              title: "Aula 1 - Limites",
-              progress: 100,
-              files: [
-                { id: "1", name: "Slides_Limites.pdf", type: "pdf", completed: true, uploadDate: "2024-01-15" },
-                { id: "2", name: "Exercicios_Cap1.pdf", type: "pdf", completed: true, uploadDate: "2024-01-15" },
-              ]
-            },
-            {
-              id: "2", 
-              title: "Aula 2 - Derivadas",
-              progress: 60,
-              files: [
-                { id: "3", name: "Teoria_Derivadas.pdf", type: "pdf", completed: true, uploadDate: "2024-01-20" },
-                { id: "4", name: "Lista_Exercicios.pdf", type: "pdf", completed: false, uploadDate: "2024-01-20" },
-              ]
-            }
-          ]
-        },
-        {
-          id: "2",
-          name: "Física II",
-          color: "bg-green-500", 
-          progress: 65,
-          archived: false,
-          contents: [
-            {
-              id: "3",
-              title: "Eletromagnetismo",
-              progress: 40,
-              files: [
-                { id: "5", name: "Cap_Eletromagnetismo.pdf", type: "pdf", completed: false, uploadDate: "2024-01-18" },
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: "2", 
-      name: "2º Semestre 2024",
-      expanded: false,
-      progress: 30,
-      subjects: [
-        {
-          id: "3",
-          name: "Algoritmos e Estruturas de Dados",
-          color: "bg-purple-500",
-          progress: 45,
-          archived: false,
-          contents: []
-        }
-      ]
-    }
-  ]);
+  // Study units will be loaded from backend API
+  const [studyUnits, setStudyUnits] = useState<StudyUnit[]>([]);
 
   const toggleUnit = (unitId: string) => {
     setStudyUnits(units =>
@@ -185,7 +117,21 @@ export default function Subjects() {
 
       {/* Study Units */}
       <div className="space-y-6">
-        {studyUnits.map((unit) => (
+        {studyUnits.length === 0 ? (
+          <Card className="shadow-card">
+            <CardContent className="flex flex-col items-center justify-center py-16">
+              <BookOpen className="h-16 w-16 text-muted-foreground mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Nenhuma unidade de estudo ainda</h3>
+              <p className="text-muted-foreground text-center mb-6">
+                Comece criando sua primeira unidade de estudo para organizar suas disciplinas
+              </p>
+              <Button variant="aurora" size="lg">
+                <Plus className="mr-2 h-5 w-5" />
+                Criar Primeira Unidade
+              </Button>
+            </CardContent>
+          </Card>
+        ) : studyUnits.map((unit) => (
           <Card key={unit.id} className="shadow-card hover:shadow-float transition-all duration-300">
             <CardHeader 
               className="cursor-pointer select-none"
