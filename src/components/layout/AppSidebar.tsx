@@ -37,7 +37,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
       )}
     >
       {/* Header */}
-      <div className="flex h-16 items-center justify-between border-b px-4">
+      <div className="flex h-16 items-center justify-between border-b px-4 relative">
         {!collapsed && (
           <div className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-aurora">
@@ -50,7 +50,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
           variant="ghost"
           size="icon"
           onClick={onToggle}
-          className="h-8 w-8"
+          className="h-8 w-8 hover:bg-primary/10"
         >
           {collapsed ? (
             <ChevronRight className="h-4 w-4" />
@@ -64,16 +64,16 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
       <div className="border-b p-4">
         <div className="flex items-center space-x-3">
           <Avatar className="h-10 w-10 ring-2 ring-primary/20">
-            <AvatarImage src="/placeholder.svg" />
+            <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=test" />
             <AvatarFallback className="gradient-aurora text-white font-semibold">
-              GB
+              UT
             </AvatarFallback>
           </Avatar>
           {!collapsed && (
             <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium leading-none">Guilherme Borges</p>
+              <p className="text-sm font-medium leading-none">Usuário Teste</p>
               <p className="text-xs leading-none text-muted-foreground">
-                guilherme@example.com
+                teste@exemplo.com
               </p>
             </div>
           )}
