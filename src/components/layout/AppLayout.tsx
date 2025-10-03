@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AppSidebar } from "./AppSidebar";
 import { cn } from "@/lib/utils";
 import { useFocusMode } from "@/hooks/useFocusMode";
+import { useFocusModeContext } from "@/contexts/FocusModeContext";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -9,9 +10,10 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { focusModeEnabled } = useFocusModeContext();
   
-  // Enable focus mode audio alert
-  useFocusMode();
+  // Enable focus mode audio alert based on user preference
+  useFocusMode(focusModeEnabled);
 
   return (
     <div className="flex min-h-screen w-full bg-background">

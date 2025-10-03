@@ -1,10 +1,23 @@
 import { useEffect, useRef } from 'react';
 
-export const useFocusMode = () => {
+export const useFocusMode = (enabled: boolean) => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    if (!enabled) {
+      // Clear any existing timeout and stop audio if mode is disabled
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+      return;
+    }
+
     // Initialize audio
     audioRef.current = new Audio('/focus-alert.mp3');
     audioRef.current.loop = true;
@@ -48,5 +61,5 @@ export const useFocusMode = () => {
         audioRef.current = null;
       }
     };
-  }, []);
+  }, [enabled]);
 };

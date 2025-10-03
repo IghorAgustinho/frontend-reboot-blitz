@@ -9,11 +9,14 @@ import {
   Settings, 
   LogOut,
   ChevronLeft,
-  ChevronRight 
+  ChevronRight,
+  Focus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import { useFocusModeContext } from "@/contexts/FocusModeContext";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -29,6 +32,8 @@ const navigation = [
 ];
 
 export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
+  const { focusModeEnabled, toggleFocusMode } = useFocusModeContext();
+  
   return (
     <div
       className={cn(
@@ -37,7 +42,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
       )}
     >
       {/* Header */}
-      <div className="flex h-16 items-center justify-between border-b px-4 relative">
+      <div className="flex h-16 items-center border-b px-4">
         {!collapsed && (
           <div className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-aurora">
@@ -46,11 +51,19 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
             <span className="text-xl font-bold text-gradient">Skillium</span>
           </div>
         )}
+        {collapsed && (
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-aurora mx-auto">
+            <BookOpen className="h-5 w-5 text-white" />
+          </div>
+        )}
         <Button
           variant="ghost"
           size="icon"
           onClick={onToggle}
-          className="h-8 w-8 hover:bg-primary/10"
+          className={cn(
+            "h-8 w-8 hover:bg-accent/50 transition-colors flex-shrink-0",
+            collapsed ? "ml-0" : "ml-auto"
+          )}
         >
           {collapsed ? (
             <ChevronRight className="h-4 w-4" />
@@ -81,7 +94,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1 p-4">
+      <nav className="flex-1 space-y-1 p-4 overflow-y-auto">
         {navigation.map((item) => (
           <NavLink
             key={item.name}
@@ -89,10 +102,11 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
             className={({ isActive }) =>
               cn(
                 "flex items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",
-                "hover:bg-accent hover:text-accent-foreground",
+                "hover:bg-accent/50 hover:text-accent-foreground",
                 isActive
                   ? "bg-primary text-primary-foreground shadow-aurora"
-                  : "text-muted-foreground"
+                  : "text-muted-foreground",
+                collapsed && "justify-center"
               )
             }
           >
@@ -100,6 +114,51 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
             {!collapsed && <span>{item.name}</span>}
           </NavLink>
         ))}
+
+        {/* Focus Mode Section */}
+        <div className={cn(
+          "mt-6 rounded-lg border border-border bg-muted/30 transition-all",
+          collapsed ? "p-2" : "p-4"
+        )}>
+          <div className="flex items-center gap-3 mb-2">
+            <div className={cn(
+              "flex items-center justify-center rounded-md bg-primary/10",
+              collapsed ? "h-8 w-8" : "h-9 w-9"
+            )}>
+              <Focus className={cn("text-primary", collapsed ? "h-4 w-4" : "h-5 w-5")} />
+            </div>
+            {!collapsed && (
+              <h3 className="font-semibold text-sm">Modo Foco</h3>
+            )}
+          </div>
+          
+          {!collapsed && (
+            <>
+              <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
+                Receba alertas sonoros quando perder o foco por mais de 15 segundos, ajudando você a manter a concentração nos estudos.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium">
+                  {focusModeEnabled ? "Ativado" : "Desativado"}
+                </span>
+                <Switch
+                  checked={focusModeEnabled}
+                  onCheckedChange={toggleFocusMode}
+                />
+              </div>
+            </>
+          )}
+          
+          {collapsed && (
+            <div className="flex justify-center mt-1">
+              <Switch
+                checked={focusModeEnabled}
+                onCheckedChange={toggleFocusMode}
+                className="scale-75"
+              />
+            </div>
+          )}
+        </div>
       </nav>
 
       {/* Footer */}
@@ -109,10 +168,11 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
           className={({ isActive }) =>
             cn(
               "flex items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",
-              "hover:bg-accent hover:text-accent-foreground",
+              "hover:bg-accent/50 hover:text-accent-foreground",
               isActive
                 ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground"
+                : "text-muted-foreground",
+              collapsed && "justify-center"
             )
           }
         >
@@ -122,7 +182,10 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
         
         <Button
           variant="ghost"
-          className="w-full justify-start text-muted-foreground hover:text-destructive"
+          className={cn(
+            "w-full text-muted-foreground hover:text-destructive hover:bg-destructive/10",
+            collapsed ? "justify-center px-0" : "justify-start"
+          )}
         >
           <LogOut className="h-5 w-5 flex-shrink-0" />
           {!collapsed && <span className="ml-3">Sair</span>}
