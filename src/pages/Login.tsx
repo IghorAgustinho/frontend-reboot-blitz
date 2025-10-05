@@ -4,13 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Eye, EyeOff, Sparkles, BookOpen, Target, Clock, Zap, TrendingUp, Award } from "lucide-react";
+import { Eye, EyeOff, BookOpen, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("signin");
   
   const [signInData, setSignInData] = useState({
     email: "",
@@ -45,252 +46,229 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full relative overflow-hidden bg-background">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-primary/20 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-0 right-0 w-[700px] h-[700px] bg-secondary/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-        
-        {/* Grid Pattern Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+    <div className="min-h-screen w-full relative overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
+      {/* Decorative Blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4 sm:p-6">
-        <div className="w-full max-w-7xl grid lg:grid-cols-[1.2fr,1fr] gap-12 items-center">
-          
-          {/* Left Side - Branding */}
-          <div className="space-y-10 animate-fade-in">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm hover:bg-primary/20 transition-all">
-                <Sparkles className="h-4 w-4 text-primary animate-pulse" />
-                <span className="text-sm font-medium text-primary">Transforme seus estudos</span>
-              </div>
-              
-              <div className="space-y-4">
-                <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold leading-tight">
-                  <span className="text-gradient">Skillium</span>
-                </h1>
-                
-                <p className="text-lg sm:text-xl text-muted-foreground max-w-xl leading-relaxed">
-                  A plataforma completa para organizar seus estudos, aumentar sua produtividade e alcançar seus objetivos acadêmicos com excelência
-                </p>
-              </div>
+      {/* Decorative Wave Pattern */}
+      <svg className="absolute bottom-0 left-0 w-full h-auto opacity-10" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path 
+          fill="hsl(var(--primary))" 
+          fillOpacity="1" 
+          d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+        />
+      </svg>
+
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-4">
+        {/* Logo/Brand */}
+        <div className="mb-8 text-center animate-fade-in">
+          <div className="inline-flex items-center gap-2 mb-3">
+            <div className="w-12 h-12 rounded-xl gradient-aurora flex items-center justify-center shadow-aurora">
+              <BookOpen className="h-6 w-6 text-white" />
             </div>
-
-            <div className="grid gap-4">
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-lg transition-all group">
-                <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <BookOpen className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">Organização Inteligente</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">Gerencie disciplinas, conteúdos e materiais de estudo em um único lugar</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-secondary/30 hover:shadow-lg transition-all group">
-                <div className="p-3 rounded-xl bg-secondary/10 group-hover:bg-secondary/20 transition-colors">
-                  <Target className="h-6 w-6 text-secondary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">Foco Total</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">Timer Pomodoro com alertas inteligentes para máxima concentração</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/30 hover:shadow-lg transition-all group">
-                <div className="p-3 rounded-xl bg-accent/10 group-hover:bg-accent/20 transition-colors">
-                  <TrendingUp className="h-6 w-6 text-accent" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">Evolução Contínua</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">Acompanhe seu progresso com estatísticas detalhadas e insights</p>
-                </div>
-              </div>
-            </div>
+            <span className="text-3xl font-bold text-gradient">Skillium</span>
           </div>
+          <p className="text-muted-foreground text-sm">Transforme seus estudos em conquistas</p>
+        </div>
 
-          {/* Right Side - Login Form */}
-          <div className="animate-scale-in">
-            <div className="relative">
-              {/* Múltiplos glow effects para profundidade */}
-              <div className="absolute -inset-4 bg-gradient-to-br from-primary/30 via-secondary/30 to-accent/30 rounded-3xl blur-3xl opacity-50"></div>
-              <div className="absolute -inset-2 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-3xl blur-2xl"></div>
-              
-              {/* Card Principal com sobreposição */}
-              <div className="relative bg-gradient-to-br from-card/95 via-card/90 to-card/95 backdrop-blur-2xl border border-border/50 rounded-3xl shadow-2xl overflow-hidden">
-                {/* Background Pattern Overlay */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,hsl(var(--primary)/0.1),transparent_50%)]"></div>
-                
-                {/* Content */}
-                <div className="relative p-8 sm:p-10 space-y-6">
-                  {/* Header */}
-                  <div className="text-center space-y-4">
-                    <div className="mx-auto w-20 h-20 rounded-2xl gradient-aurora flex items-center justify-center shadow-aurora">
-                      <Award className="h-10 w-10 text-white" />
-                    </div>
-                    <div>
-                      <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
-                        Bem-vindo de volta!
-                      </h2>
-                      <p className="text-muted-foreground mt-2 text-sm sm:text-base">
-                        Entre ou crie sua conta para começar sua jornada de estudos
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Tabs */}
-                  <Tabs defaultValue="signin" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/50 p-1 h-12">
-                      <TabsTrigger 
-                        value="signin" 
-                        className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg transition-all data-[state=active]:shadow-lg font-medium"
-                      >
-                        Entrar
-                      </TabsTrigger>
-                      <TabsTrigger 
-                        value="signup" 
-                        className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg transition-all data-[state=active]:shadow-lg font-medium"
-                      >
-                        Criar Conta
-                      </TabsTrigger>
-                    </TabsList>
-                    
-                    {/* Sign In Form */}
-                    <TabsContent value="signin">
-                      <form onSubmit={handleSignIn} className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="signin-email">Email</Label>
-                          <Input
-                            id="signin-email"
-                            type="email"
-                            placeholder="seu@email.com"
-                            value={signInData.email}
-                            onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
-                            required
-                            className="h-11 bg-background/50 border-border/50 focus:border-primary"
-                          />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="signin-password">Senha</Label>
-                          <div className="relative">
-                            <Input
-                              id="signin-password"
-                              type={showPassword ? "text" : "password"}
-                              placeholder="••••••••"
-                              value={signInData.password}
-                              onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
-                              required
-                              className="h-11 pr-10 bg-background/50 border-border/50 focus:border-primary"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => setShowPassword(!showPassword)}
-                              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                            </button>
-                          </div>
-                        </div>
-
-                        <Button 
-                          type="submit" 
-                          className="w-full h-11 mt-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-aurora" 
-                          disabled={loading}
-                        >
-                          {loading ? (
-                            <div className="flex items-center gap-2">
-                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                              Entrando...
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-2">
-                              <Zap className="h-4 w-4" />
-                              Entrar
-                            </div>
-                          )}
-                        </Button>
-                      </form>
-                    </TabsContent>
-                    
-                    {/* Sign Up Form */}
-                    <TabsContent value="signup">
-                      <form onSubmit={handleSignUp} className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="signup-name">Nome</Label>
-                          <Input
-                            id="signup-name"
-                            type="text"
-                            placeholder="Seu nome completo"
-                            value={signUpData.name}
-                            onChange={(e) => setSignUpData({ ...signUpData, name: e.target.value })}
-                            required
-                            className="h-11 bg-background/50 border-border/50 focus:border-primary"
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="signup-email">Email</Label>
-                          <Input
-                            id="signup-email"
-                            type="email"
-                            placeholder="seu@email.com"
-                            value={signUpData.email}
-                            onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
-                            required
-                            className="h-11 bg-background/50 border-border/50 focus:border-primary"
-                          />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="signup-password">Senha</Label>
-                          <div className="relative">
-                            <Input
-                              id="signup-password"
-                              type={showPassword ? "text" : "password"}
-                              placeholder="••••••••"
-                              value={signUpData.password}
-                              onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
-                              required
-                              className="h-11 pr-10 bg-background/50 border-border/50 focus:border-primary"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => setShowPassword(!showPassword)}
-                              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                            </button>
-                          </div>
-                        </div>
-
-                        <Button 
-                          type="submit" 
-                          className="w-full h-11 mt-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-aurora"
-                          disabled={loading}
-                        >
-                          {loading ? (
-                            <div className="flex items-center gap-2">
-                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                              Criando conta...
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-2">
-                              <Sparkles className="h-4 w-4" />
-                              Criar Conta
-                            </div>
-                          )}
-                        </Button>
-                      </form>
-                    </TabsContent>
-                  </Tabs>
+        {/* Login Card */}
+        <div className="w-full max-w-md animate-scale-in">
+          <div className="relative">
+            {/* Glow Effect */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/30 rounded-2xl blur-xl"></div>
+            
+            {/* Card */}
+            <div className="relative bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl overflow-hidden">
+              {/* Header Wave */}
+              <div className="relative h-32 gradient-aurora overflow-hidden">
+                <svg className="absolute bottom-0 w-full" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                  <path 
+                    fill="hsl(var(--card))" 
+                    fillOpacity="0.95" 
+                    d="M0,50L60,45C120,40,240,30,360,35C480,40,600,60,720,65C840,70,960,60,1080,50C1200,40,1320,30,1380,25L1440,20L1440,100L1380,100C1320,100,1200,100,1080,100C960,100,840,100,720,100C600,100,480,100,360,100C240,100,120,100,60,100L0,100Z"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center pb-6">
+                  <Sparkles className="h-8 w-8 text-white animate-pulse" />
                 </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-8 pt-4">
+                <div className="text-center mb-6">
+                  <h2 className="text-2xl font-bold mb-1">
+                    {activeTab === "signin" ? "Bem-vindo de volta!" : "Crie sua conta"}
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    {activeTab === "signin" 
+                      ? "Entre para continuar sua jornada" 
+                      : "Comece sua jornada de estudos hoje"}
+                  </p>
+                </div>
+
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                  <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/50 p-1 h-11">
+                    <TabsTrigger 
+                      value="signin"
+                      className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all font-medium text-sm"
+                    >
+                      Entrar
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="signup"
+                      className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all font-medium text-sm"
+                    >
+                      Criar Conta
+                    </TabsTrigger>
+                  </TabsList>
+                  
+                  {/* Sign In Form */}
+                  <TabsContent value="signin" className="mt-0">
+                    <form onSubmit={handleSignIn} className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="signin-email" className="text-sm">Email</Label>
+                        <Input
+                          id="signin-email"
+                          type="email"
+                          placeholder="seu@email.com"
+                          value={signInData.email}
+                          onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
+                          required
+                          className="h-10 bg-background/50 border-border/50 focus:border-primary transition-colors"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="signin-password" className="text-sm">Senha</Label>
+                        <div className="relative">
+                          <Input
+                            id="signin-password"
+                            type={showPassword ? "text" : "password"}
+                            placeholder="••••••••"
+                            value={signInData.password}
+                            onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
+                            required
+                            className="h-10 pr-10 bg-background/50 border-border/50 focus:border-primary transition-colors"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                          >
+                            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between text-xs">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input type="checkbox" className="rounded border-border" />
+                          <span className="text-muted-foreground">Lembrar-me</span>
+                        </label>
+                        <button type="button" className="text-primary hover:underline">
+                          Esqueceu a senha?
+                        </button>
+                      </div>
+
+                      <Button 
+                        type="submit" 
+                        className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground shadow-aurora" 
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            Entrando...
+                          </div>
+                        ) : (
+                          "Entrar"
+                        )}
+                      </Button>
+                    </form>
+                  </TabsContent>
+                  
+                  {/* Sign Up Form */}
+                  <TabsContent value="signup" className="mt-0">
+                    <form onSubmit={handleSignUp} className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="signup-name" className="text-sm">Nome Completo</Label>
+                        <Input
+                          id="signup-name"
+                          type="text"
+                          placeholder="Seu nome"
+                          value={signUpData.name}
+                          onChange={(e) => setSignUpData({ ...signUpData, name: e.target.value })}
+                          required
+                          className="h-10 bg-background/50 border-border/50 focus:border-primary transition-colors"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="signup-email" className="text-sm">Email</Label>
+                        <Input
+                          id="signup-email"
+                          type="email"
+                          placeholder="seu@email.com"
+                          value={signUpData.email}
+                          onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
+                          required
+                          className="h-10 bg-background/50 border-border/50 focus:border-primary transition-colors"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="signup-password" className="text-sm">Senha</Label>
+                        <div className="relative">
+                          <Input
+                            id="signup-password"
+                            type={showPassword ? "text" : "password"}
+                            placeholder="••••••••"
+                            value={signUpData.password}
+                            onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
+                            required
+                            className="h-10 pr-10 bg-background/50 border-border/50 focus:border-primary transition-colors"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                          >
+                            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          </button>
+                        </div>
+                        <p className="text-xs text-muted-foreground">Mínimo de 8 caracteres</p>
+                      </div>
+
+                      <Button 
+                        type="submit" 
+                        className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground shadow-aurora"
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            Criando conta...
+                          </div>
+                        ) : (
+                          "Criar Conta"
+                        )}
+                      </Button>
+                    </form>
+                  </TabsContent>
+                </Tabs>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Footer */}
+        <p className="mt-8 text-xs text-muted-foreground text-center animate-fade-in">
+          Ao continuar, você concorda com nossos Termos de Uso e Política de Privacidade
+        </p>
       </div>
     </div>
   );
