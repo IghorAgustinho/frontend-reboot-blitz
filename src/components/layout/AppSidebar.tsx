@@ -106,7 +106,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
                 isActive
                   ? "bg-primary text-primary-foreground shadow-aurora"
                   : "text-muted-foreground",
-                collapsed && "justify-center"
+                collapsed && "justify-center px-0"
               )
             }
           >
@@ -114,16 +114,19 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
             {!collapsed && <span>{item.name}</span>}
           </NavLink>
         ))}
+      </nav>
 
+      {/* Footer */}
+      <div className="border-t p-4 space-y-2">
         {/* Focus Mode Section */}
         <div className={cn(
-          "mt-6 rounded-lg border border-border bg-muted/30 transition-all",
+          "mb-2 rounded-lg border border-border bg-muted/30 transition-all",
           collapsed ? "p-2" : "p-4"
         )}>
           <div className="flex items-center gap-3 mb-2">
             <div className={cn(
               "flex items-center justify-center rounded-md bg-primary/10",
-              collapsed ? "h-8 w-8" : "h-9 w-9"
+              collapsed ? "h-8 w-8 mx-auto" : "h-9 w-9"
             )}>
               <Focus className={cn("text-primary", collapsed ? "h-4 w-4" : "h-5 w-5")} />
             </div>
@@ -159,10 +162,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
             </div>
           )}
         </div>
-      </nav>
 
-      {/* Footer */}
-      <div className="border-t p-4 space-y-1">
         <NavLink
           to="/settings"
           className={({ isActive }) =>
@@ -172,7 +172,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
               isActive
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground",
-              collapsed && "justify-center"
+              collapsed && "justify-center px-0"
             )
           }
         >
@@ -183,7 +183,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
         <Button
           variant="ghost"
           className={cn(
-            "w-full text-muted-foreground hover:text-destructive hover:bg-destructive/10",
+            "w-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors",
             collapsed ? "justify-center px-0" : "justify-start"
           )}
         >
