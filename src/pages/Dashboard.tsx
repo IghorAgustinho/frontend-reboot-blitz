@@ -202,19 +202,19 @@ const Dashboard = () => {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Button className="h-20 flex-col space-y-2" variant="outline">
+            <Button className="h-20 flex-col space-y-2" variant="aurora">
               <BookOpen className="h-6 w-6" />
               <span>Nova Matéria</span>
             </Button>
-            <Button className="h-20 flex-col space-y-2" variant="outline">
+            <Button className="h-20 flex-col space-y-2" variant="aurora">
               <Timer className="h-6 w-6" />
               <span>Iniciar Timer</span>
             </Button>
-            <Button className="h-20 flex-col space-y-2" variant="outline">
+            <Button className="h-20 flex-col space-y-2" variant="aurora">
               <Notebook className="h-6 w-6" />
               <span>Nova Anotação</span>
             </Button>
-            <Button className="h-20 flex-col space-y-2" variant="outline">
+            <Button className="h-20 flex-col space-y-2" variant="aurora">
               <CalendarDays className="h-6 w-6" />
               <span>Agendar Evento</span>
             </Button>
