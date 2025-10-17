@@ -54,38 +54,38 @@ const Login = () => {
         <div className="absolute top-1/3 left-1/2 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      {/* Sharp Top Element */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-primary via-primary to-secondary overflow-hidden">
+      {/* Sharp Top Element - Invertido */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-br from-primary/20 via-secondary/20 to-primary/20 overflow-hidden">
         <div className="absolute -bottom-px left-0 right-0">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-20">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-16">
             <polygon 
-              points="0,0 600,120 1200,0 1200,120 0,120" 
-              fill="hsl(var(--background))"
+              points="0,120 300,0 900,0 1200,120" 
+              className="fill-background"
             />
           </svg>
         </div>
-        {/* Decorative Dots */}
-        <div className="absolute top-4 left-8 w-2 h-2 bg-white/30 rounded-full"></div>
-        <div className="absolute top-8 left-16 w-2 h-2 bg-white/30 rounded-full"></div>
-        <div className="absolute top-6 right-12 w-2 h-2 bg-white/30 rounded-full"></div>
-        <div className="absolute top-10 right-24 w-2 h-2 bg-white/30 rounded-full"></div>
+        {/* Decorative Dots Pattern */}
+        <div className="absolute top-8 left-12 w-2 h-2 bg-primary/40 rounded-full animate-pulse"></div>
+        <div className="absolute top-4 left-32 w-1.5 h-1.5 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute top-10 right-24 w-2 h-2 bg-primary/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-6 right-48 w-1.5 h-1.5 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }}></div>
       </div>
 
-      {/* Sharp Bottom Element */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-br from-secondary via-primary to-primary overflow-hidden">
+      {/* Sharp Bottom Element - Invertido */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-br from-secondary/20 via-primary/20 to-secondary/20 overflow-hidden">
         <div className="absolute -top-px left-0 right-0">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-20">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-16">
             <polygon 
-              points="0,120 600,0 1200,120 1200,0 0,0" 
-              fill="hsl(var(--background))"
+              points="0,0 300,120 900,120 1200,0" 
+              className="fill-background"
             />
           </svg>
         </div>
-        {/* Decorative Dots */}
-        <div className="absolute bottom-4 left-12 w-2 h-2 bg-white/30 rounded-full"></div>
-        <div className="absolute bottom-8 left-24 w-2 h-2 bg-white/30 rounded-full"></div>
-        <div className="absolute bottom-6 right-8 w-2 h-2 bg-white/30 rounded-full"></div>
-        <div className="absolute bottom-10 right-20 w-2 h-2 bg-white/30 rounded-full"></div>
+        {/* Decorative Dots Pattern */}
+        <div className="absolute bottom-8 left-16 w-2 h-2 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+        <div className="absolute bottom-4 left-40 w-1.5 h-1.5 bg-primary/40 rounded-full animate-pulse" style={{ animationDelay: '0.8s' }}></div>
+        <div className="absolute bottom-10 right-20 w-2 h-2 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '1.3s' }}></div>
+        <div className="absolute bottom-6 right-52 w-1.5 h-1.5 bg-primary/40 rounded-full animate-pulse" style={{ animationDelay: '1.8s' }}></div>
       </div>
 
       {/* Main Content */}
@@ -93,7 +93,7 @@ const Login = () => {
         {/* Logo/Brand */}
         <div className="mb-8 text-center animate-fade-in">
           <div className="inline-flex items-center gap-3 mb-2">
-            <div className="w-14 h-14 rounded-2xl gradient-aurora flex items-center justify-center shadow-aurora rotate-3 transition-transform hover:rotate-6 hover:scale-110">
+            <div className="w-14 h-14 rounded-2xl gradient-aurora flex items-center justify-center shadow-aurora transition-transform hover:scale-110">
               <BookOpen className="h-7 w-7 text-white" />
             </div>
             <span className="text-4xl font-bold text-gradient">Skillium</span>
@@ -102,10 +102,10 @@ const Login = () => {
         </div>
 
         {/* Login Card */}
-        <div className="w-full max-w-md animate-scale-in">
+          <div className="w-full max-w-md animate-scale-in">
           <div className="relative">
-            {/* Glow Effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-primary rounded-2xl blur-lg opacity-75 animate-pulse"></div>
+            {/* Glow Effect Suavizado */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-secondary/30 to-primary/30 rounded-2xl blur-xl opacity-50 animate-pulse"></div>
             
             {/* Card */}
             <div className="relative bg-card border border-border/50 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-sm">
@@ -129,16 +129,16 @@ const Login = () => {
                 </div>
 
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/50 p-1 h-12 rounded-xl">
+                  <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/30 p-1 h-12 rounded-xl">
                     <TabsTrigger 
                       value="signin"
-                      className="data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white rounded-lg transition-all font-semibold data-[state=active]:shadow-md"
+                      className="data-[state=active]:gradient-aurora data-[state=active]:text-white rounded-lg transition-all font-semibold data-[state=active]:shadow-md"
                     >
                       Entrar
                     </TabsTrigger>
                     <TabsTrigger 
                       value="signup"
-                      className="data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white rounded-lg transition-all font-semibold data-[state=active]:shadow-md"
+                      className="data-[state=active]:gradient-aurora data-[state=active]:text-white rounded-lg transition-all font-semibold data-[state=active]:shadow-md"
                     >
                       Criar Conta
                     </TabsTrigger>
@@ -200,7 +200,8 @@ const Login = () => {
 
                       <Button 
                         type="submit" 
-                        className="w-full h-11 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all font-semibold mt-6" 
+                        variant="aurora"
+                        className="w-full h-11 mt-6" 
                         disabled={loading}
                       >
                         {loading ? (
@@ -278,7 +279,8 @@ const Login = () => {
 
                       <Button 
                         type="submit" 
-                        className="w-full h-11 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all font-semibold mt-6"
+                        variant="aurora"
+                        className="w-full h-11 mt-6"
                         disabled={loading}
                       >
                         {loading ? (

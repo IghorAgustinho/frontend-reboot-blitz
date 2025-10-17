@@ -238,7 +238,7 @@ export default function Subjects() {
                             <p className="text-sm text-muted-foreground">
                               Nenhum conteúdo ainda
                             </p>
-                            <Button variant="outline" size="sm">
+                            <Button variant="aurora" size="sm">
                               <Plus className="mr-2 h-4 w-4" />
                               Adicionar Conteúdo
                             </Button>
@@ -291,7 +291,7 @@ export default function Subjects() {
                                 </div>
                               )}
                               
-                              <Button variant="outline" size="sm" className="w-full">
+                              <Button variant="aurora" size="sm" className="w-full">
                                 <Upload className="mr-2 h-4 w-4" />
                                 Adicionar Arquivo
                               </Button>

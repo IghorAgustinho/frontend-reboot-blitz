@@ -159,7 +159,7 @@ const Notes = () => {
           }}
         >
           <DialogTrigger asChild>
-            <Button>
+            <Button variant="aurora">
               <Plus className="h-4 w-4 mr-2" />
               Nova Anotação
             </Button>
@@ -226,7 +226,7 @@ const Notes = () => {
                 >
                   Cancelar
                 </Button>
-                <Button onClick={editingNote ? handleUpdateNote : handleCreateNote}>
+                <Button variant="aurora" onClick={editingNote ? handleUpdateNote : handleCreateNote}>
                   {editingNote ? "Atualizar" : "Criar"} Anotação
                 </Button>
               </div>

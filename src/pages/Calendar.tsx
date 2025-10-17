@@ -159,7 +159,7 @@ const Calendar = () => {
           
           <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
             <DialogTrigger asChild>
-              <Button>
+              <Button variant="aurora">
                 <Plus className="h-4 w-4 mr-2" />
                 Criar Evento
               </Button>
@@ -248,7 +248,7 @@ const Calendar = () => {
                   <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
                     Cancelar
                   </Button>
-                  <Button onClick={handleCreateEvent}>
+                  <Button variant="aurora" onClick={handleCreateEvent}>
                     Salvar Evento
                   </Button>
                 </div>
