@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Eye, EyeOff, BookOpen, Sparkles, Lock, Mail, User } from "lucide-react";
 import { toast } from "sonner";
 
@@ -23,6 +24,11 @@ const Login = () => {
     email: "",
     password: ""
   });
+
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,6 +51,18 @@ const Login = () => {
     }, 1000);
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    setTimeout(() => {
+      toast.success("Email de recuperação enviado!");
+      setShowForgotPassword(false);
+      setForgotPasswordEmail("");
+      setLoading(false);
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-gradient-to-br from-background via-muted/30 to-background">
       {/* Animated Background Blobs */}
@@ -52,6 +70,8 @@ const Login = () => {
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-float"></div>
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
         <div className="absolute top-1/3 left-1/2 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute top-1/4 -left-20 w-64 h-64 bg-primary/20 rounded-full blur-2xl animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-secondary/20 rounded-full blur-2xl animate-float" style={{ animationDelay: '3s' }}></div>
       </div>
 
       {/* Sharp Top Element - Invertido */}
@@ -144,8 +164,8 @@ const Login = () => {
                     </TabsTrigger>
                   </TabsList>
                   
-                  {/* Sign In Form */}
-                  <TabsContent value="signin" className="mt-0">
+                   {/* Sign In Form */}
+                  <TabsContent value="signin" className="mt-0 animate-fade-in">
                     <form onSubmit={handleSignIn} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="signin-email" className="text-sm font-medium flex items-center gap-2">
@@ -193,7 +213,11 @@ const Login = () => {
                           <input type="checkbox" className="rounded border-border w-4 h-4 text-primary focus:ring-primary" />
                           <span className="text-muted-foreground group-hover:text-foreground transition-colors">Lembrar-me</span>
                         </label>
-                        <button type="button" className="text-primary hover:underline font-medium transition-colors">
+                        <button 
+                          type="button" 
+                          onClick={() => setShowForgotPassword(true)}
+                          className="text-primary hover:underline font-medium transition-colors"
+                        >
                           Esqueceu a senha?
                         </button>
                       </div>
@@ -216,8 +240,8 @@ const Login = () => {
                     </form>
                   </TabsContent>
                   
-                  {/* Sign Up Form */}
-                  <TabsContent value="signup" className="mt-0">
+                   {/* Sign Up Form */}
+                  <TabsContent value="signup" className="mt-0 animate-fade-in">
                     <form onSubmit={handleSignUp} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="signup-name" className="text-sm font-medium flex items-center gap-2">
@@ -302,9 +326,132 @@ const Login = () => {
 
         {/* Footer */}
         <p className="mt-8 text-xs text-muted-foreground text-center max-w-md animate-fade-in">
-          Ao continuar, você concorda com nossos <span className="text-primary hover:underline cursor-pointer">Termos de Uso</span> e <span className="text-primary hover:underline cursor-pointer">Política de Privacidade</span>
+          Ao continuar, você concorda com nossos{" "}
+          <span 
+            onClick={() => setShowTerms(true)}
+            className="text-primary hover:underline cursor-pointer"
+          >
+            Termos de Uso
+          </span>{" "}
+          e{" "}
+          <span 
+            onClick={() => setShowPrivacy(true)}
+            className="text-primary hover:underline cursor-pointer"
+          >
+            Política de Privacidade
+          </span>
         </p>
       </div>
+
+      {/* Forgot Password Dialog */}
+      <Dialog open={showForgotPassword} onOpenChange={setShowForgotPassword}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Lock className="h-5 w-5 text-primary" />
+              Recuperar Senha
+            </DialogTitle>
+            <DialogDescription>
+              Digite seu email para receber as instruções de recuperação de senha.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleForgotPassword} className="space-y-4 pt-4">
+            <div className="space-y-2">
+              <Label htmlFor="forgot-email">Email</Label>
+              <Input
+                id="forgot-email"
+                type="email"
+                placeholder="seu@email.com"
+                value={forgotPasswordEmail}
+                onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                required
+                className="h-11"
+              />
+            </div>
+            <div className="flex gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowForgotPassword(false)}
+                className="flex-1"
+                disabled={loading}
+              >
+                Cancelar
+              </Button>
+              <Button 
+                type="submit" 
+                variant="aurora"
+                className="flex-1"
+                disabled={loading}
+              >
+                {loading ? "Enviando..." : "Enviar"}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Terms Dialog */}
+      <Dialog open={showTerms} onOpenChange={setShowTerms}>
+        <DialogContent className="sm:max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Termos de Uso</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 text-sm text-muted-foreground">
+            <p>
+              Bem-vindo ao Skillium! Ao utilizar nossa plataforma, você concorda com os seguintes termos:
+            </p>
+            <h3 className="font-semibold text-foreground">1. Uso da Plataforma</h3>
+            <p>
+              O Skillium é uma ferramenta de gestão de estudos. Você é responsável por manter suas credenciais seguras.
+            </p>
+            <h3 className="font-semibold text-foreground">2. Privacidade dos Dados</h3>
+            <p>
+              Seus dados são protegidos e utilizados apenas para melhorar sua experiência na plataforma.
+            </p>
+            <h3 className="font-semibold text-foreground">3. Responsabilidades</h3>
+            <p>
+              Você concorda em utilizar a plataforma de forma ética e não realizar atividades que possam prejudicar outros usuários.
+            </p>
+            <p className="text-xs italic">
+              *Este é um texto modelo. Substitua pelo conteúdo real dos seus termos de uso.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Privacy Policy Dialog */}
+      <Dialog open={showPrivacy} onOpenChange={setShowPrivacy}>
+        <DialogContent className="sm:max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Política de Privacidade</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 text-sm text-muted-foreground">
+            <p>
+              A privacidade dos nossos usuários é fundamental para o Skillium.
+            </p>
+            <h3 className="font-semibold text-foreground">Coleta de Dados</h3>
+            <p>
+              Coletamos apenas informações essenciais: nome, email e dados de uso da plataforma para melhorar sua experiência.
+            </p>
+            <h3 className="font-semibold text-foreground">Uso dos Dados</h3>
+            <p>
+              Seus dados são utilizados para personalizar sua experiência, gerar estatísticas e melhorar nossos serviços.
+            </p>
+            <h3 className="font-semibold text-foreground">Compartilhamento</h3>
+            <p>
+              Não compartilhamos seus dados pessoais com terceiros sem seu consentimento explícito.
+            </p>
+            <h3 className="font-semibold text-foreground">Segurança</h3>
+            <p>
+              Utilizamos as melhores práticas de segurança para proteger seus dados contra acesso não autorizado.
+            </p>
+            <p className="text-xs italic">
+              *Este é um texto modelo. Substitua pelo conteúdo real da sua política de privacidade.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
