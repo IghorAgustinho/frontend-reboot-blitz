@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Eye, EyeOff, BookOpen, Sparkles, Lock, Mail, User } from "lucide-react";
 import { toast } from "sonner";
+// v2.0
 
 const Login = () => {
   const navigate = useNavigate();
