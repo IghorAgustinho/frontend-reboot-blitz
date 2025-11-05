@@ -1,5 +1,28 @@
 # 📋 Histórico de Atualizações - Skillium
 
+## 04/11/2025
+
+### 🎨 Calendar Page - Redesign Visual
+
+**Melhorias de Design:**
+- 🎨 Aplicado design system com gradientes aurora consistentes
+- 🎨 Animações suaves (fade-in, scale-in, glow no dia atual)
+- 🎨 Cards com shadow-float e bordas suavizadas
+- 🎨 Header do calendário com gradiente sutil
+- 🎨 Dias da semana com background gradient
+- 🎨 Efeito hover aprimorado nos dias do calendário
+- 🎨 Dia atual com destaque visual (gradiente, ring, animação glow)
+- 🎨 Eventos com cards gradient e efeito hover
+- 🎨 Modais redesenhados com títulos gradient
+- 🎨 Detalhes de eventos com cards informativos e ícones coloridos
+- 🎨 Responsividade melhorada (mobile-first)
+- 🎨 Badge "Google Conectado" com design aurora
+
+**Arquivos Modificados:**
+- `src/pages/Calendar.tsx` - Redesign completo mantendo funcionalidade
+
+---
+
 ## 21/10/2025
 
 ### ✨ Login Page - Versão 2.0

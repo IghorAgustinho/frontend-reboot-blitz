@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,8 +14,10 @@ import {
   Calendar as CalendarIcon,
   Clock,
   MapPin,
-  FileText
+  FileText,
+  Sparkles
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface CalendarEvent {
   id: string;
@@ -138,40 +140,40 @@ const Calendar = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-8 space-y-6 animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
-          <CalendarIcon className="h-8 w-8 text-primary" />
+          <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 shadow-aurora">
+            <CalendarIcon className="h-8 w-8 text-primary" />
+          </div>
           <div>
-            <h1 className="text-3xl font-bold text-gradient">Calendário</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-gradient">Calendário</h1>
             <p className="text-muted-foreground">Gerencie seus eventos e compromissos</p>
           </div>
         </div>
         
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-              Google Conectado
-            </Badge>
-          </div>
+          <Badge variant="outline" className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 text-primary hover:shadow-aurora transition-all duration-200">
+            <Sparkles className="w-3 h-3 mr-2" />
+            Google Conectado
+          </Badge>
           
           <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
             <DialogTrigger asChild>
-              <Button variant="aurora">
+              <Button variant="aurora" className="shadow-aurora">
                 <Plus className="h-4 w-4 mr-2" />
                 Criar Evento
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] shadow-float animate-scale-in">
               <DialogHeader>
-                <DialogTitle>Criar Novo Evento</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="text-2xl font-bold text-gradient">Criar Novo Evento</DialogTitle>
+                <DialogDescription className="text-muted-foreground">
                   Adicione um novo evento ao seu calendário
                 </DialogDescription>
               </DialogHeader>
-              <div className="space-y-4">
+              <div className="space-y-4 py-4">
                 <div>
                   <Label htmlFor="title">Título do Evento</Label>
                   <Input
@@ -179,6 +181,7 @@ const Calendar = () => {
                     value={newEvent.title || ""}
                     onChange={(e) => setNewEvent(prev => ({...prev, title: e.target.value}))}
                     placeholder="Ex: Prova de Matemática"
+                    className="border-border/50 focus:border-primary transition-colors"
                   />
                 </div>
                 
@@ -189,16 +192,17 @@ const Calendar = () => {
                     type="date"
                     value={newEvent.date || ""}
                     onChange={(e) => setNewEvent(prev => ({...prev, date: e.target.value}))}
+                    className="border-border/50 focus:border-primary transition-colors"
                   />
                 </div>
                 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5 border border-border/50">
                   <Switch
                     id="all-day"
                     checked={newEvent.isAllDay || false}
                     onCheckedChange={(checked) => setNewEvent(prev => ({...prev, isAllDay: checked}))}
                   />
-                  <Label htmlFor="all-day">Dia inteiro</Label>
+                  <Label htmlFor="all-day" className="cursor-pointer">Dia inteiro</Label>
                 </div>
                 
                 {!newEvent.isAllDay && (
@@ -210,6 +214,7 @@ const Calendar = () => {
                         type="time"
                         value={newEvent.startTime || ""}
                         onChange={(e) => setNewEvent(prev => ({...prev, startTime: e.target.value}))}
+                        className="border-border/50 focus:border-primary transition-colors"
                       />
                     </div>
                     <div>
@@ -219,6 +224,7 @@ const Calendar = () => {
                         type="time"
                         value={newEvent.endTime || ""}
                         onChange={(e) => setNewEvent(prev => ({...prev, endTime: e.target.value}))}
+                        className="border-border/50 focus:border-primary transition-colors"
                       />
                     </div>
                   </div>
@@ -231,6 +237,7 @@ const Calendar = () => {
                     value={newEvent.location || ""}
                     onChange={(e) => setNewEvent(prev => ({...prev, location: e.target.value}))}
                     placeholder="Ex: Sala 205"
+                    className="border-border/50 focus:border-primary transition-colors"
                   />
                 </div>
                 
@@ -241,74 +248,101 @@ const Calendar = () => {
                     value={newEvent.description || ""}
                     onChange={(e) => setNewEvent(prev => ({...prev, description: e.target.value}))}
                     placeholder="Adicione detalhes sobre o evento..."
+                    className="border-border/50 focus:border-primary transition-colors"
                   />
                 </div>
-                
-                <div className="flex justify-end space-x-2">
-                  <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
-                    Cancelar
-                  </Button>
-                  <Button variant="aurora" onClick={handleCreateEvent}>
-                    Salvar Evento
-                  </Button>
-                </div>
               </div>
+              <DialogFooter className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
+                  Cancelar
+                </Button>
+                <Button variant="aurora" onClick={handleCreateEvent} className="shadow-aurora">
+                  Salvar Evento
+                </Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
       </div>
 
       {/* Calendar */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-2xl">
+      <Card className="shadow-float border-border/50 overflow-hidden animate-scale-in">
+        <CardHeader className="bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-border/50">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <CardTitle className="text-2xl md:text-3xl font-bold text-gradient">
               {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
             </CardTitle>
             <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm" onClick={() => navigateMonth('prev')}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => navigateMonth('prev')}
+                className="hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-200"
+              >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="sm" onClick={() => navigateMonth('next')}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => navigateMonth('next')}
+                className="hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-200"
+              >
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 md:p-6">
           {/* Days of week header */}
-          <div className="grid grid-cols-7 gap-1 mb-4">
+          <div className="grid grid-cols-7 gap-2 mb-4">
             {daysOfWeek.map(day => (
-              <div key={day} className="p-2 text-center font-semibold text-muted-foreground">
+              <div 
+                key={day} 
+                className="p-2 text-center font-bold text-sm text-primary/80 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg"
+              >
                 {day}
               </div>
             ))}
           </div>
           
           {/* Calendar grid */}
-          <div className="grid grid-cols-7 gap-1">
+          <div className="grid grid-cols-7 gap-2">
             {getDaysInMonth(currentDate).map((day, index) => (
               <div
                 key={index}
-                className={`min-h-[100px] p-2 border rounded-lg ${
-                  day ? 'hover:bg-muted/50 cursor-pointer' : ''
-                } ${isToday(day || 0) ? 'bg-primary/10 border-primary' : 'border-border'}`}
+                className={cn(
+                  "h-auto min-h-[80px] md:min-h-[100px] p-2 md:p-3 border rounded-xl flex flex-col items-start space-y-2 transition-all duration-300",
+                  day 
+                    ? 'bg-card hover:bg-gradient-to-br hover:from-primary/5 hover:to-secondary/5 hover:shadow-aurora hover:scale-[1.02] cursor-pointer' 
+                    : 'bg-muted/10 opacity-40',
+                  isToday(day || 0)
+                    ? 'bg-gradient-to-br from-primary/10 to-secondary/10 border-primary/50 shadow-aurora ring-2 ring-primary/20 animate-glow'
+                    : 'border-border/50'
+                )}
               >
                 {day && (
                   <>
-                    <div className={`text-sm font-semibold mb-1 ${
-                      isToday(day) ? 'text-primary' : 'text-foreground'
-                    }`}>
+                    <div className={cn(
+                      "text-sm md:text-base font-bold flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200",
+                      isToday(day)
+                        ? 'bg-gradient-to-br from-primary to-secondary text-primary-foreground shadow-lg scale-110'
+                        : 'text-foreground'
+                    )}>
                       {day}
                     </div>
-                    <div className="space-y-1">
+                    <div className="w-full space-y-1 overflow-auto max-h-[50px] md:max-h-[70px] scrollbar-hide">
                       {getEventsForDay(day).map(event => (
                         <div
                           key={event.id}
                           onClick={() => openEventDetails(event)}
-                          className="text-xs p-1 bg-primary/20 text-primary rounded cursor-pointer hover:bg-primary/30 transition-colors"
+                          className="group w-full p-1.5 rounded-lg bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 cursor-pointer hover:from-primary/20 hover:to-secondary/20 hover:border-primary/40 hover:shadow-md transition-all duration-200"
                         >
-                          {event.title}
+                          <div className="flex items-start gap-1">
+                            <Clock className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+                            <p className="text-xs font-medium text-foreground truncate group-hover:text-primary transition-colors">
+                              {event.title}
+                            </p>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -322,29 +356,35 @@ const Calendar = () => {
 
       {/* Event Details Modal */}
       <Dialog open={isDetailsModalOpen} onOpenChange={setIsDetailsModalOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] shadow-float animate-scale-in">
           {selectedEvent && (
             <>
               <DialogHeader>
-                <DialogTitle>{selectedEvent.title}</DialogTitle>
+                <DialogTitle className="text-2xl font-bold text-gradient">{selectedEvent.title}</DialogTitle>
                 <DialogDescription>
                   Detalhes do evento
                 </DialogDescription>
               </DialogHeader>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                  <span>{new Date(selectedEvent.date).toLocaleDateString('pt-BR', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}</span>
+              <div className="space-y-4 py-4">
+                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5 border border-border/50">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <CalendarIcon className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="font-medium">
+                    {new Date(selectedEvent.date).toLocaleDateString('pt-BR', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </span>
                 </div>
                 
-                <div className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span>
+                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5 border border-border/50">
+                  <div className="p-2 rounded-lg bg-secondary/10">
+                    <Clock className="h-4 w-4 text-secondary" />
+                  </div>
+                  <span className="font-medium">
                     {selectedEvent.isAllDay 
                       ? 'Dia Inteiro' 
                       : `${selectedEvent.startTime} - ${selectedEvent.endTime}`
@@ -353,28 +393,38 @@ const Calendar = () => {
                 </div>
                 
                 {selectedEvent.location && (
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
-                    <span>{selectedEvent.location}</span>
+                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5 border border-border/50">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <MapPin className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="font-medium">{selectedEvent.location}</span>
                   </div>
                 )}
                 
                 {selectedEvent.description && (
-                  <div className="flex items-start space-x-2">
-                    <FileText className="h-4 w-4 text-muted-foreground mt-0.5" />
-                    <span className="text-sm">{selectedEvent.description}</span>
+                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5 border border-border/50">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <FileText className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="text-sm flex-1">{selectedEvent.description}</span>
                   </div>
                 )}
-                
-                <div className="flex justify-between pt-4">
-                  <Button variant="outline">
-                    Adicionar ao Google
-                  </Button>
-                  <Button variant="outline" onClick={() => setIsDetailsModalOpen(false)}>
-                    Fechar
-                  </Button>
-                </div>
               </div>
+              <DialogFooter className="flex justify-between w-full">
+                <Button 
+                  variant="outline" 
+                  className="hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:border-primary/30 transition-all"
+                >
+                  Adicionar ao Google
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setIsDetailsModalOpen(false)}
+                  className="hover:bg-muted transition-all"
+                >
+                  Fechar
+                </Button>
+              </DialogFooter>
             </>
           )}
         </DialogContent>
