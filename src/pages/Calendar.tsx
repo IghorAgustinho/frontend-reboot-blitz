@@ -488,23 +488,33 @@ export default function Calendar() {
                       )}>
                         {format(d, 'd')}
                       </div>
-                      <div className="w-full space-y-1 overflow-auto max-h-[50px] md:max-h-[70px] scrollbar-hide">
+                      <div className="w-full space-y-1.5 overflow-auto max-h-[50px] md:max-h-[70px] scrollbar-hide">
                         {isLoadingEvents ? (
-                          <p className="text-xs text-muted-foreground">A carregar...</p>
+                          <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 animate-pulse">
+                            <div className="h-2 w-2 rounded-full bg-muted-foreground/30" />
+                            <div className="h-2 flex-1 rounded bg-muted-foreground/30" />
+                          </div>
                         ) : (
                           eventsForThisDay.map(event => (
-                            <Badge 
+                            <div
                               key={event.id}
-                              variant="secondary"
-                              className="w-full justify-start text-xs cursor-pointer hover:bg-primary/20 hover:text-primary transition-colors duration-200 bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20"
-                              onClick={() => handleOpenDetails(event)} 
-                              title={event.titulo} 
+                              onClick={() => handleOpenDetails(event)}
+                              className="group relative w-full p-2 rounded-lg bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10 border border-primary/20 cursor-pointer hover:from-primary/20 hover:via-primary/10 hover:to-secondary/20 hover:border-primary/40 hover:shadow-md transition-all duration-200 overflow-hidden"
                             >
-                              <Clock className="h-3 w-3 mr-1 flex-shrink-0 text-primary" />
-                              <span className="truncate">
-                                {format(parseISO(event.data_inicio), 'HH:mm')} - {event.titulo}
-                              </span>
-                            </Badge>
+                              <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                              <div className="relative flex items-center gap-1.5">
+                                <div className="flex-shrink-0 w-1 h-1 rounded-full bg-primary group-hover:scale-125 transition-transform duration-200" />
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-semibold text-foreground group-hover:text-primary transition-colors truncate">
+                                    {event.titulo}
+                                  </p>
+                                  <p className="text-[10px] text-muted-foreground group-hover:text-primary/70 transition-colors flex items-center gap-1">
+                                    <Clock className="h-2.5 w-2.5" />
+                                    {format(parseISO(event.data_inicio), 'HH:mm')}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
                           ))
                         )}
                       </div>
@@ -522,58 +532,99 @@ export default function Calendar() {
         <DialogContent className="sm:max-w-[425px] shadow-float animate-scale-in">
           {!isEditing ? (
             <>
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-gradient">{selectedEvent?.titulo}</DialogTitle>
-                <DialogDescription className="text-muted-foreground">Detalhes do evento</DialogDescription>
+              <DialogHeader className="space-y-3 pb-2">
+                <div className="flex items-start gap-3">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 shadow-aurora">
+                    <CalendarIcon className="h-6 w-6 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <DialogTitle className="text-2xl md:text-3xl font-bold text-gradient leading-tight">
+                      {selectedEvent?.titulo}
+                    </DialogTitle>
+                    <DialogDescription className="text-muted-foreground mt-1">
+                      Informações completas do evento
+                    </DialogDescription>
+                  </div>
+                </div>
               </DialogHeader>
-              <div className="space-y-4 py-4">
-                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5 border border-border/50">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <CalendarIcon className="h-4 w-4 text-primary" />
-                  </div>
-                  <span className="font-medium">
-                    {selectedEvent && format(parseISO(selectedEvent.data_inicio), "EEEE, dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
-                  </span>
-                </div>
-                
-                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5 border border-border/50">
-                  <div className="p-2 rounded-lg bg-secondary/10">
-                    <Clock className="h-4 w-4 text-secondary" />
-                  </div>
-                  <span className="font-medium">
-                    { selectedEvent && ( (parseISO(selectedEvent.data_inicio).getUTCHours() === 0 && parseISO(selectedEvent.data_fim).getUTCHours() === 23 && parseISO(selectedEvent.data_inicio).getUTCMinutes() === 0 && parseISO(selectedEvent.data_fim).getUTCMinutes() === 59)
-                      ? 'Dia Inteiro' 
-                      : `${format(parseISO(selectedEvent.data_inicio), 'HH:mm')} - ${format(parseISO(selectedEvent.data_fim), 'HH:mm')}`
-                    )}
-                  </span>
-                </div>
-                
-                {selectedEvent?.descricao && (
-                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5 border border-border/50">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <FileText className="h-4 w-4 text-primary" />
+              
+              <div className="space-y-3 py-6">
+                {/* Data Card */}
+                <div className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-primary/5 via-primary/10 to-secondary/5 border border-primary/20 p-4 hover:shadow-aurora transition-all duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative flex items-center gap-4">
+                    <div className="flex-shrink-0 p-3 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 group-hover:scale-110 transition-transform duration-300">
+                      <CalendarIcon className="h-5 w-5 text-primary" />
                     </div>
-                    <span className="text-sm flex-1">{selectedEvent.descricao}</span>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-primary/70 uppercase tracking-wide mb-1">Data</p>
+                      <p className="font-semibold text-foreground">
+                        {selectedEvent && format(parseISO(selectedEvent.data_inicio), "EEEE, dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hora Card */}
+                <div className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-secondary/5 via-secondary/10 to-primary/5 border border-secondary/20 p-4 hover:shadow-aurora transition-all duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-r from-secondary/0 via-secondary/10 to-secondary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative flex items-center gap-4">
+                    <div className="flex-shrink-0 p-3 rounded-lg bg-gradient-to-br from-secondary/20 to-secondary/10 group-hover:scale-110 transition-transform duration-300">
+                      <Clock className="h-5 w-5 text-secondary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-secondary/70 uppercase tracking-wide mb-1">Horário</p>
+                      <p className="font-semibold text-foreground">
+                        {selectedEvent && ((parseISO(selectedEvent.data_inicio).getUTCHours() === 0 && parseISO(selectedEvent.data_fim).getUTCHours() === 23 && parseISO(selectedEvent.data_inicio).getUTCMinutes() === 0 && parseISO(selectedEvent.data_fim).getUTCMinutes() === 59)
+                          ? 'Dia Inteiro' 
+                          : `${format(parseISO(selectedEvent.data_inicio), 'HH:mm')} - ${format(parseISO(selectedEvent.data_fim), 'HH:mm')}`
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Descrição Card */}
+                {selectedEvent?.descricao && (
+                  <div className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 border border-border/50 p-4 hover:shadow-aurora transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative flex items-start gap-4">
+                      <div className="flex-shrink-0 p-3 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 group-hover:scale-110 transition-transform duration-300">
+                        <FileText className="h-5 w-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-primary/70 uppercase tracking-wide mb-2">Descrição</p>
+                        <p className="text-sm text-foreground/90 leading-relaxed">{selectedEvent.descricao}</p>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
-              <DialogFooter className="flex justify-between w-full">
+              <DialogFooter className="flex flex-col sm:flex-row justify-between gap-3 pt-4 border-t border-border/50">
                 <div className="flex gap-2">
                   <Button 
                     variant="destructive" 
                     size="sm" 
                     onClick={handleDeleteEvent} 
                     disabled={deleteEventMutation.isPending}
+                    className="shadow-sm hover:shadow-md transition-shadow"
                   >
-                    {deleteEventMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+                    {deleteEventMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4 mr-2" />}
+                    {!deleteEventMutation.isPending && "Excluir"}
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setIsEditing(true)}
+                    className="shadow-sm hover:shadow-md hover:bg-primary/5 hover:border-primary/30 transition-all"
+                  >
                     <Edit className="h-4 w-4 mr-2" /> Editar
                   </Button>
                 </div>
                 <Button 
                   variant="outline" 
                   onClick={() => setIsDetailsModalOpen(false)}
+                  className="shadow-sm hover:shadow-md transition-all"
                 >
                   Fechar
                 </Button>
