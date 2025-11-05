@@ -316,7 +316,7 @@ const Calendar = () => {
                       ? 'bg-card hover:bg-gradient-to-br hover:from-primary/5 hover:to-secondary/5 hover:shadow-aurora hover:scale-[1.02] cursor-pointer' 
                       : 'bg-muted/10 opacity-40',
                     isToday(day || 0)
-                      ? 'bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/30 shadow-sm'
+                      ? 'bg-gradient-to-br from-primary/10 to-secondary/10 border-primary/50 shadow-aurora ring-1 ring-primary/20'
                       : 'border-border/50'
                   )}
               >
