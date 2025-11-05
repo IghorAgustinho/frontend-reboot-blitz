@@ -310,22 +310,22 @@ const Calendar = () => {
             {getDaysInMonth(currentDate).map((day, index) => (
               <div
                 key={index}
-                className={cn(
-                  "h-auto min-h-[80px] md:min-h-[100px] p-2 md:p-3 border rounded-xl flex flex-col items-start space-y-2 transition-all duration-300",
-                  day 
-                    ? 'bg-card hover:bg-gradient-to-br hover:from-primary/5 hover:to-secondary/5 hover:shadow-aurora hover:scale-[1.02] cursor-pointer' 
-                    : 'bg-muted/10 opacity-40',
-                  isToday(day || 0)
-                    ? 'bg-gradient-to-br from-primary/10 to-secondary/10 border-primary/50 shadow-aurora ring-2 ring-primary/20 animate-glow'
-                    : 'border-border/50'
-                )}
+                  className={cn(
+                    "h-auto min-h-[80px] md:min-h-[100px] p-2 md:p-3 border rounded-xl flex flex-col items-start space-y-2 transition-all duration-300",
+                    day 
+                      ? 'bg-card hover:bg-gradient-to-br hover:from-primary/5 hover:to-secondary/5 hover:shadow-aurora hover:scale-[1.02] cursor-pointer' 
+                      : 'bg-muted/10 opacity-40',
+                    isToday(day || 0)
+                      ? 'bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/30 shadow-sm'
+                      : 'border-border/50'
+                  )}
               >
                 {day && (
                   <>
                     <div className={cn(
-                      "text-sm md:text-base font-bold flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200",
+                      "text-sm md:text-base font-bold",
                       isToday(day)
-                        ? 'bg-gradient-to-br from-primary to-secondary text-primary-foreground shadow-lg scale-110'
+                        ? 'text-primary'
                         : 'text-foreground'
                     )}>
                       {day}
